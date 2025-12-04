@@ -1,0 +1,17 @@
+name: Auto Version Bump
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  bump:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: npm version patch --no-git-tag-version
+      - uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "chore: bump version"
+          file_pattern: package.json
