@@ -41,6 +41,11 @@ export async function proxy(request: NextRequest) {
   const locale = pathname.split('/')[1] || 'en';
   const requestedPath = pathname.substring(locale.length + 1);
 
+  // Skip auth check for callback route
+  if (requestedPath.startsWith('/auth/callback')) {
+    return response;
+  }
+
   if (!session && protectedRoutes.includes(requestedPath)) {
     return NextResponse.redirect(new URL(`/${locale}/login`, request.url));
   }

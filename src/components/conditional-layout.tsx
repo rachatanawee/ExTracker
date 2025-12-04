@@ -5,7 +5,7 @@ import { BottomNav } from '@/components/bottom-nav/bottom-nav'
 import { PageTransitionWrapper } from '@/components/page-transition-wrapper'
 import { LanguageSwitcher } from '@/components/language-switcher'
 import { APP_NAME } from '@/lib/config'
-import { Sparkles } from 'lucide-react'
+import { Wallet } from 'lucide-react'
 
 export function ConditionalLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname()
@@ -30,13 +30,13 @@ export function ConditionalLayout({ children }: { children: React.ReactNode }) {
           <div className="flex items-center gap-3">
             <div className="relative">
               <div className="w-11 h-11 bg-gradient-to-br from-white/30 to-white/10 rounded-2xl flex items-center justify-center backdrop-blur-md border border-white/20 shadow-lg">
-                <Sparkles className="w-6 h-6 text-white drop-shadow-lg" />
+                <Wallet className="w-6 h-6 text-white drop-shadow-lg" />
               </div>
               <div className="absolute -top-1 -right-1 w-3 h-3 bg-yellow-400 rounded-full border-2 border-blue-600 animate-pulse" />
             </div>
             <div>
-              <h1 className="text-xs font-semibold text-white/70 tracking-wide">{APP_NAME}</h1>
-              <p className="text-lg font-bold text-white tracking-tight">{getPageTitle()}</p>
+              <h1 className="text-sm font-semibold text-white/80 tracking-wide">{APP_NAME}</h1>
+              <p className="text-xl font-bold text-white tracking-tight">{getPageTitle()}</p>
             </div>
           </div>
           <LanguageSwitcher />
