@@ -22,11 +22,25 @@ interface TransactionListProps {
 }
 
 export function TransactionList({ locale, translations: t }: TransactionListProps) {
+  const getWeekRange = () => {
+    const today = new Date()
+    const day = today.getDay()
+    const sunday = new Date(today)
+    sunday.setDate(today.getDate() - day)
+    const saturday = new Date(sunday)
+    saturday.setDate(sunday.getDate() + 6)
+    return {
+      from: sunday.toISOString().split('T')[0],
+      to: saturday.toISOString().split('T')[0]
+    }
+  }
+
+  const weekRange = getWeekRange()
   const [transactions, setTransactions] = useState<Transaction[]>([])
   const [filteredTransactions, setFilteredTransactions] = useState<Transaction[]>([])
   const [searchText, setSearchText] = useState('')
-  const [dateFrom, setDateFrom] = useState('')
-  const [dateTo, setDateTo] = useState('')
+  const [dateFrom, setDateFrom] = useState(weekRange.from)
+  const [dateTo, setDateTo] = useState(weekRange.to)
   const [loading, setLoading] = useState(true)
   const [deleteConfirm, setDeleteConfirm] = useState<string | null>(null)
 
