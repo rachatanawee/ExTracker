@@ -5,6 +5,7 @@ import { createClient } from '@/lib/supabase/client'
 import { Tables } from '@/lib/supabase/types'
 import { ArrowUpRight, ArrowDownRight, Receipt, ChevronDown } from 'lucide-react'
 import Link from 'next/link'
+import React from 'react'
 
 type Transaction = Tables<'transactions'> & {
   categories: { name: string; type: string } | null
@@ -193,7 +194,7 @@ export function HomeContent({ locale, translations: t }: HomeContentProps) {
                     />
                   )
                   return acc
-                }, [] as JSX.Element[])}
+                }, [] as React.ReactElement[])}
               </svg>
               <div className="absolute inset-0 flex items-center justify-center">
                 <div className="text-center">
