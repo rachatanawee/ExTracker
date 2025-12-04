@@ -1,0 +1,98 @@
+{
+  "Index": {
+    "title": "Hello, World!"
+  },
+  "BottomNav": {
+    "Home": "Home",
+    "Summary": "Summary",
+    "Transactions": "Transactions",
+    "Add": "Add",
+    "Profile": "Profile"
+  },
+  "TransactionsPage": {
+    "title": "Transactions",
+    "search": "Search transactions...",
+    "filterByDate": "Filter by date",
+    "from": "From",
+    "to": "To",
+    "noTransactions": "No transactions found"
+  },
+  "HomePage": {
+    "title": "Dashboard",
+    "description": "This is your Next.js template with internationalization support.",
+    "recentTransactions": "Recent Transactions",
+    "noTransactions": "No transactions yet",
+    "viewAll": "View All",
+    "income": "Income",
+    "expense": "Expense"
+  },
+  "ProfilePage": {
+    "title": "Profile",
+    "logout": "Logout",
+    "member": "Member",
+    "email": "Email",
+    "joinedDate": "Joined Date",
+    "loginType": "Login Type",
+    "user": "User",
+    "unknown": "Unknown",
+    "accounts": "Accounts",
+    "categories": "Categories",
+    "addAccount": "Add Account",
+    "addCategory": "Add Category",
+    "name": "Name",
+    "color": "Color",
+    "type": "Type",
+    "expense": "Expense",
+    "income": "Income",
+    "save": "Save",
+    "cancel": "Cancel",
+    "edit": "Edit",
+    "delete": "Delete"
+  },
+  "LoginPage": {
+    "title": "Sign In",
+    "email": "Email",
+    "password": "Password",
+    "signIn": "Sign In",
+    "signingIn": "Signing in...",
+    "or": "or",
+    "signInWithGoogle": "Sign in with Google",
+    "emailPlaceholder": "your@email.com",
+    "passwordPlaceholder": "••••••••"
+  },
+  "SummaryPage": {
+    "title": "Expense Summary",
+    "description": "Overview of your income, expenses, and account balances",
+    "income": "Income",
+    "expense": "Expense",
+    "balance": "Balance",
+    "accounts": "Accounts",
+    "categoryExpenses": "Category Expenses",
+    "recentTransactions": "Recent Transactions",
+    "noCategory": "No Category",
+    "noData": "No data available"
+  },
+  "FloatingButton": {
+    "addTransaction": "Add Transaction",
+    "addAccount": "Add Account",
+    "addCategory": "Add Category"
+  },
+  "AddTransaction": {
+    "title": "Add Transaction",
+    "expense": "Expense",
+    "income": "Income",
+    "amount": "Amount",
+    "account": "Account",
+    "category": "Category",
+    "date": "Date",
+    "note": "Note",
+    "image": "Receipt Image",
+    "takePhoto": "Take Photo",
+    "uploadImage": "Upload Image",
+    "selectAccount": "Select Account",
+    "selectCategory": "Select Category",
+    "notePlaceholder": "Optional note",
+    "save": "Save",
+    "saving": "Saving..."
+  }
+}

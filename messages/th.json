@@ -1,0 +1,108 @@
+{
+  "Index": {
+    "title": "สวัสดีชาวโลก!"
+  },
+  "BottomNav": {
+    "Home": "หน้าแรก",
+    "Summary": "สรุป",
+    "Transactions": "รายการ",
+    "Add": "เพิ่ม",
+    "Profile": "โปรไฟล์"
+  },
+  "TransactionsPage": {
+    "title": "รายการทั้งหมด",
+    "search": "ค้นหารายการ...",
+    "filterByDate": "กรองตามวันที่",
+    "from": "จาก",
+    "to": "ถึง",
+    "noTransactions": "ไม่พบรายการ"
+  },
+  "HomePage": {
+    "title": "แดชบอร์ด",
+    "description": "นี่คือเทมเพลต Next.js ของคุณพร้อมการรองรับหลายภาษา",
+    "recentTransactions": "รายการล่าสุด",
+    "noTransactions": "ยังไม่มีรายการ",
+    "viewAll": "ดูทั้งหมด",
+    "income": "รายรับ",
+    "expense": "รายจ่าย"
+  },
+  "ProfilePage": {
+    "title": "โปรไฟล์",
+    "logout": "ออกจากระบบ",
+    "member": "สมาชิกของระบบ",
+    "email": "อีเมล",
+    "joinedDate": "สมัครสมาชิกเมื่อ",
+    "loginType": "ประเภทการเข้าสู่ระบบ",
+    "user": "ผู้ใช้",
+    "unknown": "ไม่ทราบ"
+  },
+  "LoginPage": {
+    "title": "เข้าสู่ระบบ",
+    "email": "อีเมล",
+    "password": "รหัสผ่าน",
+    "signIn": "เข้าสู่ระบบ",
+    "signingIn": "กำลังเข้าสู่ระบบ...",
+    "or": "หรือ",
+    "signInWithGoogle": "เข้าสู่ระบบด้วย Google",
+    "emailPlaceholder": "your@email.com",
+    "passwordPlaceholder": "••••••••"
+  },
+  "SummaryPage": {
+    "title": "สรุปการใช้จ่าย",
+    "description": "ภาพรวมรายรับ รายจ่าย และยอดเงินในบัญชีของคุณ",
+    "income": "รายรับ",
+    "expense": "รายจ่าย",
+    "balance": "ยอดคงเหลือ",
+    "accounts": "บัญชี",
+    "categoryExpenses": "รายจ่ายตามหมวดหมู่",
+    "recentTransactions": "รายการล่าสุด",
+    "noCategory": "ไม่ระบุหมวดหมู่",
+    "noData": "ไม่มีข้อมูล"
+  },
+  "FloatingButton": {
+    "addTransaction": "เพิ่มรายการ",
+    "addAccount": "เพิ่มบัญชี",
+    "addCategory": "เพิ่มหมวดหมู่"
+  },
+  "AddTransaction": {
+    "title": "เพิ่มรายการ",
+    "expense": "รายจ่าย",
+    "income": "รายรับ",
+    "amount": "จำนวนเงิน",
+    "account": "บัญชี",
+    "category": "หมวดหมู่",
+    "date": "วันที่",
+    "note": "หมายเหตุ",
+    "image": "รูปใบเสร็จ",
+    "takePhoto": "ถ่ายรูป",
+    "uploadImage": "อัปโหลดรูป",
+    "selectAccount": "เลือกบัญชี",
+    "selectCategory": "เลือกหมวดหมู่",
+    "notePlaceholder": "หมายเหตุเพิ่มเติม",
+    "save": "บันทึก",
+    "saving": "กำลังบันทึก..."
+  },
+  "ProfilePage": {
+    "title": "โปรไฟล์",
+    "logout": "ออกจากระบบ",
+    "member": "สมาชิกของระบบ",
+    "email": "อีเมล",
+    "joinedDate": "สมัครสมาชิกเมื่อ",
+    "loginType": "ประเภทการเข้าสู่ระบบ",
+    "user": "ผู้ใช้",
+    "unknown": "ไม่ทราบ",
+    "accounts": "บัญชี",
+    "categories": "หมวดหมู่",
+    "addAccount": "เพิ่มบัญชี",
+    "addCategory": "เพิ่มหมวดหมู่",
+    "name": "ชื่อ",
+    "color": "สี",
+    "type": "ประเภท",
+    "expense": "รายจ่าย",
+    "income": "รายรับ",
+    "save": "บันทึก",
+    "cancel": "ยกเลิก",
+    "edit": "แก้ไข",
+    "delete": "ลบ"
+  }
+}
