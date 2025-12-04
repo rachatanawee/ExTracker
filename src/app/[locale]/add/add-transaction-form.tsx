@@ -147,6 +147,7 @@ export function AddTransactionForm({ locale, translations: t }: AddTransactionFo
         
         if (data.amount) setFormData(prev => ({ ...prev, amount: data.amount.toString() }))
         if (data.date) setFormData(prev => ({ ...prev, date: data.date }))
+        if (data.time) setFormData(prev => ({ ...prev, time: data.time }))
         if (data.note) setFormData(prev => ({ ...prev, note: data.note }))
         if (data.category) {
           console.log('OCR Category:', data.category)

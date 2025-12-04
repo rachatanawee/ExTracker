@@ -26,7 +26,7 @@ export async function POST(request: NextRequest) {
           mimeType: 'image/jpeg'
         }
       },
-      'Extract transaction information from this receipt/image. Return ONLY a JSON object with: amount (number), date (YYYY-MM-DD format), note (merchant/description), category (suggest category in Thai based on merchant name: อาหาร, เดินทาง, ที่พัก/ค่าเช่า, ค่าไฟ/ค่าน้ำ, ช้อปปิ้ง, สุขภาพ, ความบันเทิง, เงินเดือน, โบนัส, การลงทุน). If cannot extract, return null for that field.'
+      'Extract transaction information from this receipt/image. Return ONLY a JSON object with: amount (number), date (YYYY-MM-DD format), time (HH:mm format in 24-hour), note (merchant/description), category (suggest category in Thai based on merchant name: อาหาร, เดินทาง, ที่พัก/ค่าเช่า, ค่าไฟ/ค่าน้ำ, ช้อปปิ้ง, สุขภาพ, ความบันเทิง, เงินเดือน, โบนัส, การลงทุน). If cannot extract, return null for that field.'
     ])
 
     const text = result.response.text()
