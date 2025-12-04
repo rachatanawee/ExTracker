@@ -193,7 +193,7 @@ export function ProfileContent({ locale, translations: t }: ProfileContentProps)
                       <span className="text-xs truncate">{category.name}</span>
                       {category.user_id === user?.id && (
                         <div className="flex gap-1">
-                          <button onClick={() => { setEditingCategory(category); setCategoryForm({ name: category.name, type: category.type }); setShowCategoryForm(true) }} className="text-blue-600 hover:text-blue-800">
+                          <button onClick={() => { setEditingCategory(category); setCategoryForm({ name: category.name, type: category.type as 'income' | 'expense' }); setShowCategoryForm(true) }} className="text-blue-600 hover:text-blue-800">
                             <Edit className="w-3 h-3" />
                           </button>
                           <button onClick={() => deleteCategory(category.id)} className="text-orange-600 hover:text-orange-800">
@@ -213,7 +213,7 @@ export function ProfileContent({ locale, translations: t }: ProfileContentProps)
                       <span className="text-xs truncate">{category.name}</span>
                       {category.user_id === user?.id && (
                         <div className="flex gap-1">
-                          <button onClick={() => { setEditingCategory(category); setCategoryForm({ name: category.name, type: category.type }); setShowCategoryForm(true) }} className="text-blue-600 hover:text-blue-800">
+                          <button onClick={() => { setEditingCategory(category); setCategoryForm({ name: category.name, type: category.type as 'income' | 'expense' }); setShowCategoryForm(true) }} className="text-blue-600 hover:text-blue-800">
                             <Edit className="w-3 h-3" />
                           </button>
                           <button onClick={() => deleteCategory(category.id)} className="text-orange-600 hover:text-orange-800">

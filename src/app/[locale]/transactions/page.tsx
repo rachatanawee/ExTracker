@@ -7,7 +7,6 @@ export default async function TransactionsPage({ params }: { params: Promise<{ l
 
   return (
     <div className="py-2">
-      <h1 className="text-xl font-bold text-gray-800 mb-4">{t('title')}</h1>
       <TransactionList
         locale={locale}
         translations={{

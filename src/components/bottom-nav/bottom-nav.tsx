@@ -20,14 +20,20 @@ export function BottomNav() {
   ]
 
   return (
-    <nav className="fixed bottom-0 w-full bg-white shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.1)] border-t border-gray-200">
-      <div className="flex justify-around py-2">
+    <nav className="fixed bottom-0 w-full bg-white/95 backdrop-blur-xl shadow-[0_-8px_16px_-4px_rgba(0,0,0,0.12)] border-t border-gray-100">
+      <div className="flex justify-around py-1 max-w-md mx-auto">
         {navItems.map(({ href, icon: Icon, labelKey, color }) => {
           const isActive = pathname === href
           return (
-            <Link key={href} href={href} className={`flex flex-col items-center px-3 py-1 transition-all ${isActive ? 'text-blue-600 scale-110' : 'text-gray-500'}`}>
-              <Icon className="h-6 w-6" />
-              <span className="text-xs mt-1">{t(labelKey)}</span>
+            <Link key={href} href={href} className={`relative flex flex-col items-center px-4 py-2 transition-all duration-300 ${isActive ? 'text-blue-600' : 'text-gray-400'}`}>
+              {isActive && (
+                <div className="absolute -top-1 left-1/2 -translate-x-1/2 w-12 h-1 bg-gradient-to-r from-blue-500 to-indigo-500 rounded-full" />
+              )}
+              <div className={`relative ${isActive ? 'scale-110' : 'scale-100'} transition-transform`}>
+                <Icon className="h-6 w-6" strokeWidth={isActive ? 2.5 : 2} />
+                {isActive && <div className="absolute inset-0 bg-blue-500/20 blur-xl rounded-full" />}
+              </div>
+              <span className={`text-[10px] mt-1 font-medium ${isActive ? 'font-semibold' : ''}`}>{t(labelKey)}</span>
             </Link>
           )
         })}

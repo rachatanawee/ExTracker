@@ -31,16 +31,16 @@ export function TransactionList({ locale, translations: t }: TransactionListProp
   const [deleteConfirm, setDeleteConfirm] = useState<string | null>(null)
 
   const formatDate = (dateString: string) => {
-    const date = new Date(dateString)
+    const [datePart, timePart] = dateString.split(' ')
+    const [year, month, day] = datePart.split('-')
+    const date = new Date(parseInt(year), parseInt(month) - 1, parseInt(day))
     const options: Intl.DateTimeFormatOptions = { 
       day: 'numeric', 
       month: 'short', 
-      year: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit',
-      hour12: false
+      year: 'numeric'
     }
-    return date.toLocaleDateString(locale === 'th' ? 'th-TH' : 'en-US', options)
+    const formattedDate = date.toLocaleDateString(locale === 'th' ? 'th-TH' : 'en-US', options)
+    return timePart ? `${formattedDate} ${timePart}` : formattedDate
   }
 
   useEffect(() => {

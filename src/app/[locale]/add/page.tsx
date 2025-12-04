@@ -7,9 +7,6 @@ export default async function AddPage({ params }: { params: Promise<{ locale: st
 
   return (
     <div className="py-2">
-      <div className="mb-3">
-        <h1 className="text-xl font-bold text-gray-800">{t('title')}</h1>
-      </div>
       <AddTransactionForm
         locale={locale}
         translations={{
@@ -23,6 +20,7 @@ export default async function AddPage({ params }: { params: Promise<{ locale: st
           category: t('category'),
           selectCategory: t('selectCategory'),
           date: t('date'),
+          time: t('time'),
           note: t('note'),
           notePlaceholder: t('notePlaceholder'),
           save: t('save'),

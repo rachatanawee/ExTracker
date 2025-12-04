@@ -85,6 +85,7 @@
     "account": "Account",
     "category": "Category",
     "date": "Date",
+    "time": "Time",
     "note": "Note",
     "image": "Receipt Image",
     "takePhoto": "Take Photo",

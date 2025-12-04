@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
 import { Tables } from '@/lib/supabase/types'
@@ -22,6 +22,7 @@ interface AddTransactionFormProps {
     category: string
     selectCategory: string
     date: string
+    time: string
     note: string
     notePlaceholder: string
     save: string
@@ -35,6 +36,11 @@ export function AddTransactionForm({ locale, translations: t }: AddTransactionFo
   const [accounts, setAccounts] = useState<Account[]>([])
   const [categories, setCategories] = useState<Category[]>([])
   
+  const getLocalTime = () => {
+    const now = new Date()
+    return `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`
+  }
+
   const initialFormData = {
     type: 'expense' as 'income' | 'expense',
     amount: '',
@@ -42,7 +48,7 @@ export function AddTransactionForm({ locale, translations: t }: AddTransactionFo
     category_id: '',
     note: '',
     date: new Date().toISOString().split('T')[0],
-    time: new Date().toTimeString().slice(0, 5)
+    time: getLocalTime()
   }
   const [formData, setFormData] = useState(initialFormData)
   const [imageFile, setImageFile] = useState<File | null>(null)
@@ -51,9 +57,14 @@ export function AddTransactionForm({ locale, translations: t }: AddTransactionFo
   const [showImageModal, setShowImageModal] = useState(false)
   const [showSuccess, setShowSuccess] = useState(false)
   const [errorMessage, setErrorMessage] = useState('')
+  const amountInputRef = useRef<HTMLInputElement>(null)
 
   useEffect(() => {
     fetchData()
+  }, [])
+
+  useEffect(() => {
+    amountInputRef.current?.focus()
   }, [])
 
   const fetchData = async () => {
@@ -193,7 +204,7 @@ export function AddTransactionForm({ locale, translations: t }: AddTransactionFo
         const uploadedUrl = await uploadImage(imageFile)
         if (uploadedUrl) imageUrl = uploadedUrl
       }
-
+      console.log('date time', `${formData.date} ${formData.time}`)
       const { error } = await supabase.from('transactions').insert({
         type: formData.type,
         amount: parseFloat(formData.amount),
@@ -214,10 +225,11 @@ export function AddTransactionForm({ locale, translations: t }: AddTransactionFo
           category_id: '',
           note: '',
           date: new Date().toISOString().split('T')[0],
-          time: new Date().toTimeString().slice(0, 5)
+          time: getLocalTime()
         })
         setImageFile(null)
         setImagePreview(null)
+        amountInputRef.current?.focus()
         setTimeout(() => setShowSuccess(false), 3000)
       }
     } catch (error) {
@@ -241,7 +253,7 @@ export function AddTransactionForm({ locale, translations: t }: AddTransactionFo
       <div className="grid grid-cols-2 gap-2">
         <div>
           <label className="block text-xs font-medium mb-1">{t.amount}</label>
-          <input type="number" step="0.01" value={formData.amount} onChange={(e) => setFormData(prev => ({ ...prev, amount: e.target.value }))} className="w-full p-2 border rounded-lg text-sm text-center" placeholder="0.00" required />
+          <input ref={amountInputRef} type="number" step="0.01" value={formData.amount} onChange={(e) => setFormData(prev => ({ ...prev, amount: e.target.value }))} className="w-full p-2 border rounded-lg text-sm text-center" placeholder="0.00" required />
         </div>
         <div>
           <label className="block text-xs font-medium mb-1">{t.account}</label>
@@ -272,7 +284,7 @@ export function AddTransactionForm({ locale, translations: t }: AddTransactionFo
           <input type="date" value={formData.date} onChange={(e) => setFormData(prev => ({ ...prev, date: e.target.value }))} className="w-full p-2 border rounded-lg text-sm" required />
         </div>
         <div>
-          <label className="block text-xs font-medium mb-1">{t.time || 'Time'}</label>
+          <label className="block text-xs font-medium mb-1">{t.time}</label>
           <input type="time" value={formData.time} onChange={(e) => setFormData(prev => ({ ...prev, time: e.target.value }))} className="w-full p-2 border rounded-lg text-sm" required />
         </div>
       </div>
