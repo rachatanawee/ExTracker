@@ -259,7 +259,7 @@ export function AddTransactionForm({ locale, translations: t }: AddTransactionFo
           <label className="block text-xs font-medium mb-1">{t.account}</label>
           <div className="flex gap-1">
             {accounts.map(account => (
-              <button key={account.id} type="button" onClick={() => setFormData(prev => ({ ...prev, account_id: account.id }))} className={`flex-1 px-2 py-2 rounded-lg border flex items-center justify-center font-medium text-xs ${formData.account_id === account.id ? 'bg-blue-200 text-blue-800 border-blue-300' : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50'}`}>
+              <button key={account.id} type="button" onClick={() => setFormData(prev => ({ ...prev, account_id: account.id }))} className={`flex-1 px-2 py-2 rounded-lg border flex items-center justify-center font-medium text-xs ${formData.account_id === account.id ? 'bg-purple-200 text-purple-800 border-purple-300' : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50'}`}>
                 <div className="w-2 h-2 rounded-full mr-1" style={{ backgroundColor: account.color || '#6366F1' }} />
                 {account.name}
               </button>
@@ -329,10 +329,10 @@ export function AddTransactionForm({ locale, translations: t }: AddTransactionFo
         )}
       </div>
 
-      <button type="submit" disabled={loading} className="w-full bg-blue-200 text-blue-800 p-2 rounded-lg font-medium hover:bg-blue-300 disabled:opacity-50 flex items-center justify-center text-sm relative">
+      <button type="submit" disabled={loading} className="w-full bg-purple-200 text-purple-800 p-2 rounded-lg font-medium hover:bg-purple-300 disabled:opacity-50 flex items-center justify-center text-sm relative">
         {loading ? (
           <>
-            <div className="w-4 h-4 border-2 border-blue-800 border-t-transparent rounded-full animate-spin mr-2" />
+            <div className="w-4 h-4 border-2 border-purple-800 border-t-transparent rounded-full animate-spin mr-2" />
             {t.saving}
           </>
         ) : (

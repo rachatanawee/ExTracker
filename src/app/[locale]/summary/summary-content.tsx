@@ -149,15 +149,15 @@ export function SummaryContent() {
           </div>
         </div>
 
-        <div className={`bg-gradient-to-br ${data.balance >= 0 ? 'from-blue-50 to-blue-100 border-blue-200' : 'from-orange-50 to-orange-100 border-orange-200'} p-4 rounded-xl border col-span-2`}>
+        <div className={`bg-gradient-to-br ${data.balance >= 0 ? 'from-purple-50 to-purple-100 border-purple-200' : 'from-orange-50 to-orange-100 border-orange-200'} p-4 rounded-xl border col-span-2`}>
           <div className="flex items-center justify-between">
             <div>
-              <p className={`text-sm ${data.balance >= 0 ? 'text-blue-700' : 'text-orange-700'}`}>{t('balance')}</p>
-              <p className={`text-2xl font-bold ${data.balance >= 0 ? 'text-blue-800' : 'text-orange-800'}`}>
+              <p className={`text-sm ${data.balance >= 0 ? 'text-purple-700' : 'text-orange-700'}`}>{t('balance')}</p>
+              <p className={`text-2xl font-bold ${data.balance >= 0 ? 'text-purple-800' : 'text-orange-800'}`}>
                 ฿{data.balance.toLocaleString()}
               </p>
             </div>
-            <div className={`${data.balance >= 0 ? 'bg-blue-500' : 'bg-orange-500'} p-2 rounded-full`}>
+            <div className={`${data.balance >= 0 ? 'bg-purple-500' : 'bg-orange-500'} p-2 rounded-full`}>
               <Wallet className="h-5 w-5 text-white" />
             </div>
           </div>

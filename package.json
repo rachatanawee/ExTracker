@@ -1,13 +1,16 @@
 {
   "name": "extracker",
-  "version": "0.5.2",
+  "version": "0.5.3",
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",
     "gen:types": "supabase gen types typescript --project-id sozgycfwdsttiywnvvvp > ./src/lib/supabase/types.ts",
     "build": "next build --turbopack",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "version:patch": "npm version patch --no-git-tag-version",
+    "version:minor": "npm version minor --no-git-tag-version",
+    "version:major": "npm version major --no-git-tag-version"
   },
   "dependencies": {
     "@google/generative-ai": "^0.24.1",

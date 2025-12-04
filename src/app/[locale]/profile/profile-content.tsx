@@ -89,15 +89,15 @@ export function ProfileContent({ locale, translations: t }: ProfileContentProps)
       </div>
 
       <div className="flex gap-2 mb-3">
-        <button onClick={() => setActiveTab('profile')} className={`flex-1 py-2 rounded-lg text-sm font-medium ${activeTab === 'profile' ? 'bg-blue-200 text-blue-800' : 'bg-gray-100 text-gray-700'}`}>
+        <button onClick={() => setActiveTab('profile')} className={`flex-1 py-2 rounded-lg text-sm font-medium ${activeTab === 'profile' ? 'bg-purple-200 text-purple-800' : 'bg-gray-100 text-gray-700'}`}>
           <User className="w-4 h-4 inline mr-1" />
           {t.title}
         </button>
-        <button onClick={() => setActiveTab('accounts')} className={`flex-1 py-2 rounded-lg text-sm font-medium ${activeTab === 'accounts' ? 'bg-blue-200 text-blue-800' : 'bg-gray-100 text-gray-700'}`}>
+        <button onClick={() => setActiveTab('accounts')} className={`flex-1 py-2 rounded-lg text-sm font-medium ${activeTab === 'accounts' ? 'bg-purple-200 text-purple-800' : 'bg-gray-100 text-gray-700'}`}>
           <Wallet className="w-4 h-4 inline mr-1" />
           {t.accounts}
         </button>
-        <button onClick={() => setActiveTab('categories')} className={`flex-1 py-2 rounded-lg text-sm font-medium ${activeTab === 'categories' ? 'bg-blue-200 text-blue-800' : 'bg-gray-100 text-gray-700'}`}>
+        <button onClick={() => setActiveTab('categories')} className={`flex-1 py-2 rounded-lg text-sm font-medium ${activeTab === 'categories' ? 'bg-purple-200 text-purple-800' : 'bg-gray-100 text-gray-700'}`}>
           <Tag className="w-4 h-4 inline mr-1" />
           {t.categories}
         </button>
@@ -107,7 +107,7 @@ export function ProfileContent({ locale, translations: t }: ProfileContentProps)
         {activeTab === 'profile' && (
           <div className="bg-white rounded-lg shadow p-4 border border-gray-100">
             <div className="flex items-center mb-4">
-              <div className="w-16 h-16 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center">
+              <div className="w-16 h-16 bg-purple-600 rounded-full flex items-center justify-center">
                 {user?.user_metadata?.avatar_url ? (
                   <img src={user.user_metadata.avatar_url} alt="Profile" className="w-16 h-16 rounded-full object-cover" />
                 ) : (
@@ -153,7 +153,7 @@ export function ProfileContent({ locale, translations: t }: ProfileContentProps)
 
         {activeTab === 'accounts' && (
           <div className="bg-white rounded-lg shadow p-4 border border-gray-100">
-            <button onClick={() => { setShowAccountForm(true); setEditingAccount(null); setAccountForm({ name: '', color: '#6366F1' }) }} className="w-full flex items-center justify-center gap-1 bg-blue-200 text-blue-800 py-2 rounded-lg text-sm font-medium hover:bg-blue-300 mb-3">
+            <button onClick={() => { setShowAccountForm(true); setEditingAccount(null); setAccountForm({ name: '', color: '#6366F1' }) }} className="w-full flex items-center justify-center gap-1 bg-purple-200 text-purple-800 py-2 rounded-lg text-sm font-medium hover:bg-purple-300 mb-3">
               <Plus className="w-4 h-4" />
               {t.addAccount}
             </button>
@@ -165,7 +165,7 @@ export function ProfileContent({ locale, translations: t }: ProfileContentProps)
                     <span className="text-sm font-medium">{account.name}</span>
                   </div>
                   <div className="flex gap-2">
-                    <button onClick={() => { setEditingAccount(account); setAccountForm({ name: account.name, color: account.color || '#6366F1' }); setShowAccountForm(true) }} className="text-blue-600 hover:text-blue-800">
+                    <button onClick={() => { setEditingAccount(account); setAccountForm({ name: account.name, color: account.color || '#6366F1' }); setShowAccountForm(true) }} className="text-purple-600 hover:text-purple-800">
                       <Edit className="w-4 h-4" />
                     </button>
                     <button onClick={() => deleteAccount(account.id)} className="text-orange-600 hover:text-orange-800">
@@ -180,7 +180,7 @@ export function ProfileContent({ locale, translations: t }: ProfileContentProps)
 
         {activeTab === 'categories' && (
           <div className="bg-white rounded-lg shadow p-4 border border-gray-100">
-            <button onClick={() => { setShowCategoryForm(true); setEditingCategory(null); setCategoryForm({ name: '', type: 'expense' }) }} className="w-full flex items-center justify-center gap-1 bg-blue-200 text-blue-800 py-2 rounded-lg text-sm font-medium hover:bg-blue-300 mb-3">
+            <button onClick={() => { setShowCategoryForm(true); setEditingCategory(null); setCategoryForm({ name: '', type: 'expense' }) }} className="w-full flex items-center justify-center gap-1 bg-purple-200 text-purple-800 py-2 rounded-lg text-sm font-medium hover:bg-purple-300 mb-3">
               <Plus className="w-4 h-4" />
               {t.addCategory}
             </button>
@@ -193,7 +193,7 @@ export function ProfileContent({ locale, translations: t }: ProfileContentProps)
                       <span className="text-xs truncate">{category.name}</span>
                       {category.user_id === user?.id && (
                         <div className="flex gap-1">
-                          <button onClick={() => { setEditingCategory(category); setCategoryForm({ name: category.name, type: category.type as 'income' | 'expense' }); setShowCategoryForm(true) }} className="text-blue-600 hover:text-blue-800">
+                          <button onClick={() => { setEditingCategory(category); setCategoryForm({ name: category.name, type: category.type as 'income' | 'expense' }); setShowCategoryForm(true) }} className="text-purple-600 hover:text-purple-800">
                             <Edit className="w-3 h-3" />
                           </button>
                           <button onClick={() => deleteCategory(category.id)} className="text-orange-600 hover:text-orange-800">
@@ -213,7 +213,7 @@ export function ProfileContent({ locale, translations: t }: ProfileContentProps)
                       <span className="text-xs truncate">{category.name}</span>
                       {category.user_id === user?.id && (
                         <div className="flex gap-1">
-                          <button onClick={() => { setEditingCategory(category); setCategoryForm({ name: category.name, type: category.type as 'income' | 'expense' }); setShowCategoryForm(true) }} className="text-blue-600 hover:text-blue-800">
+                          <button onClick={() => { setEditingCategory(category); setCategoryForm({ name: category.name, type: category.type as 'income' | 'expense' }); setShowCategoryForm(true) }} className="text-purple-600 hover:text-purple-800">
                             <Edit className="w-3 h-3" />
                           </button>
                           <button onClick={() => deleteCategory(category.id)} className="text-orange-600 hover:text-orange-800">
@@ -244,7 +244,7 @@ export function ProfileContent({ locale, translations: t }: ProfileContentProps)
                 <input type="color" value={accountForm.color} onChange={(e) => setAccountForm(prev => ({ ...prev, color: e.target.value }))} className="w-full h-10 border rounded-lg" />
               </div>
               <div className="flex gap-2">
-                <button onClick={saveAccount} className="flex-1 bg-blue-200 text-blue-800 py-2 rounded-lg font-medium hover:bg-blue-300">{t.save}</button>
+                <button onClick={saveAccount} className="flex-1 bg-purple-200 text-purple-800 py-2 rounded-lg font-medium hover:bg-purple-300">{t.save}</button>
                 <button onClick={() => setShowAccountForm(false)} className="flex-1 bg-gray-200 text-gray-800 py-2 rounded-lg font-medium hover:bg-gray-300">{t.cancel}</button>
               </div>
             </div>
@@ -269,7 +269,7 @@ export function ProfileContent({ locale, translations: t }: ProfileContentProps)
                 </div>
               </div>
               <div className="flex gap-2">
-                <button onClick={saveCategory} className="flex-1 bg-blue-200 text-blue-800 py-2 rounded-lg font-medium hover:bg-blue-300">{t.save}</button>
+                <button onClick={saveCategory} className="flex-1 bg-purple-200 text-purple-800 py-2 rounded-lg font-medium hover:bg-purple-300">{t.save}</button>
                 <button onClick={() => setShowCategoryForm(false)} className="flex-1 bg-gray-200 text-gray-800 py-2 rounded-lg font-medium hover:bg-gray-300">{t.cancel}</button>
               </div>
             </div>

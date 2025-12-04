@@ -143,9 +143,9 @@ export function TransactionList({ locale, translations: t }: TransactionListProp
           <p className="text-xs text-orange-700">Expense</p>
           <p className="text-lg font-bold text-orange-800">฿{totalExpense.toLocaleString()}</p>
         </div>
-        <div className="bg-blue-100 rounded-lg p-3">
-          <p className="text-xs text-blue-700">Balance</p>
-          <p className={`text-lg font-bold ${balance >= 0 ? 'text-blue-800' : 'text-orange-800'}`}>฿{balance.toLocaleString()}</p>
+        <div className="bg-purple-100 rounded-lg p-3">
+          <p className="text-xs text-purple-700">Balance</p>
+          <p className={`text-lg font-bold ${balance >= 0 ? 'text-purple-800' : 'text-orange-800'}`}>฿{balance.toLocaleString()}</p>
         </div>
       </div>
 

@@ -1,0 +1,4 @@
+#!/bin/sh
+bun run version:patch
+git add package.json
+git commit --amend --no-edit --no-verify
