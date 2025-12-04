@@ -35,19 +35,22 @@ export function AddTransactionForm({ locale, translations: t }: AddTransactionFo
   const [accounts, setAccounts] = useState<Account[]>([])
   const [categories, setCategories] = useState<Category[]>([])
   
-  const [formData, setFormData] = useState({
+  const initialFormData = {
     type: 'expense' as 'income' | 'expense',
     amount: '',
     account_id: '',
     category_id: '',
     note: '',
-    date: new Date().toISOString().split('T')[0]
-  })
+    date: new Date().toISOString().split('T')[0],
+    time: new Date().toTimeString().slice(0, 5)
+  }
+  const [formData, setFormData] = useState(initialFormData)
   const [imageFile, setImageFile] = useState<File | null>(null)
   const [imagePreview, setImagePreview] = useState<string | null>(null)
   const [ocrLoading, setOcrLoading] = useState(false)
   const [showImageModal, setShowImageModal] = useState(false)
   const [showSuccess, setShowSuccess] = useState(false)
+  const [errorMessage, setErrorMessage] = useState('')
 
   useEffect(() => {
     fetchData()
@@ -63,7 +66,12 @@ export function AddTransactionForm({ locale, translations: t }: AddTransactionFo
       supabase.from('categories').select('*')
     ])
 
-    if (accountsRes.data) setAccounts(accountsRes.data)
+    if (accountsRes.data) {
+      setAccounts(accountsRes.data)
+      if (accountsRes.data.length > 0 && !formData.account_id) {
+        setFormData(prev => ({ ...prev, account_id: accountsRes.data[0].id }))
+      }
+    }
     if (categoriesRes.data) {
       console.log('Categories loaded:', categoriesRes.data)
       setCategories(categoriesRes.data)
@@ -156,8 +164,23 @@ export function AddTransactionForm({ locale, translations: t }: AddTransactionFo
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     
-    if (!formData.amount || parseFloat(formData.amount) <= 0) return
-    if (!formData.account_id) return
+    if (!formData.amount || parseFloat(formData.amount) <= 0) {
+      setErrorMessage('กรุณากรอกจำนวนเงิน')
+      setTimeout(() => setErrorMessage(''), 3000)
+      return
+    }
+    
+    if (!formData.account_id) {
+      setErrorMessage('กรุณาเลือกบัญชี')
+      setTimeout(() => setErrorMessage(''), 3000)
+      return
+    }
+
+    if (!formData.category_id) {
+      setErrorMessage('กรุณาเลือกหมวดหมู่')
+      setTimeout(() => setErrorMessage(''), 3000)
+      return
+    }
 
     setLoading(true)
     try {
@@ -172,17 +195,30 @@ export function AddTransactionForm({ locale, translations: t }: AddTransactionFo
       }
 
       const { error } = await supabase.from('transactions').insert({
-        ...formData,
+        type: formData.type,
         amount: parseFloat(formData.amount),
+        account_id: formData.account_id,
+        category_id: formData.category_id,
+        date: `${formData.date} ${formData.time}`,
+        note: formData.note,
         image_url: imageUrl,
         user_id: user.id
       })
 
       if (!error) {
         setShowSuccess(true)
-        setTimeout(() => {
-          router.push(`/${locale}/summary`)
-        }, 1500)
+        setFormData({
+          type: 'expense',
+          amount: '',
+          account_id: accounts[0]?.id || '',
+          category_id: '',
+          note: '',
+          date: new Date().toISOString().split('T')[0],
+          time: new Date().toTimeString().slice(0, 5)
+        })
+        setImageFile(null)
+        setImagePreview(null)
+        setTimeout(() => setShowSuccess(false), 3000)
       }
     } catch (error) {
       console.error('Submit error:', error)
@@ -202,34 +238,42 @@ export function AddTransactionForm({ locale, translations: t }: AddTransactionFo
         </button>
       </div>
 
-      <div>
-        <label className="block text-xs font-medium mb-1">{t.amount}</label>
-        <input type="number" step="0.01" value={formData.amount} onChange={(e) => setFormData(prev => ({ ...prev, amount: e.target.value }))} className="w-full p-2 border rounded-lg text-sm text-center" placeholder="0.00" required />
+      <div className="grid grid-cols-2 gap-2">
+        <div>
+          <label className="block text-xs font-medium mb-1">{t.amount}</label>
+          <input type="number" step="0.01" value={formData.amount} onChange={(e) => setFormData(prev => ({ ...prev, amount: e.target.value }))} className="w-full p-2 border rounded-lg text-sm text-center" placeholder="0.00" required />
+        </div>
+        <div>
+          <label className="block text-xs font-medium mb-1">{t.account}</label>
+          <div className="flex gap-1">
+            {accounts.map(account => (
+              <button key={account.id} type="button" onClick={() => setFormData(prev => ({ ...prev, account_id: account.id }))} className={`flex-1 px-2 py-2 rounded-lg border flex items-center justify-center font-medium text-xs ${formData.account_id === account.id ? 'bg-blue-200 text-blue-800 border-blue-300' : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50'}`}>
+                <div className="w-2 h-2 rounded-full mr-1" style={{ backgroundColor: account.color || '#6366F1' }} />
+                {account.name}
+              </button>
+            ))}
+          </div>
+        </div>
       </div>
 
-      <div className="flex items-center gap-2 h-8">
-        <label className="text-xs font-medium">{t.account}</label>
-        {accounts.map(account => (
-          <button key={account.id} type="button" onClick={() => setFormData(prev => ({ ...prev, account_id: account.id }))} className={`px-3 py-1 rounded-lg border flex items-center justify-center font-medium text-xs ${formData.account_id === account.id ? 'bg-blue-200 text-blue-800 border-blue-300' : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50'}`}>
-            <div className="w-2 h-2 rounded-full mr-1" style={{ backgroundColor: account.color || '#6366F1' }} />
-            {account.name}
-          </button>
-        ))}
+      <div>
+        <label className="block text-xs font-medium mb-1">{t.category}</label>
+        <select value={formData.category_id} onChange={(e) => setFormData(prev => ({ ...prev, category_id: e.target.value }))} className="w-full p-2 border rounded-lg text-base">
+          <option value="">{t.selectCategory}</option>
+          {categories.filter(c => c.type === formData.type).map(category => (
+            <option key={category.id} value={category.id}>{category.name}</option>
+          ))}
+        </select>
       </div>
 
       <div className="grid grid-cols-2 gap-2">
         <div>
-          <label className="block text-xs font-medium mb-1">{t.category}</label>
-          <select value={formData.category_id} onChange={(e) => setFormData(prev => ({ ...prev, category_id: e.target.value }))} className="w-full p-2 border rounded-lg text-base">
-            <option value="">{t.selectCategory}</option>
-            {categories.filter(c => c.type === formData.type).map(category => (
-              <option key={category.id} value={category.id}>{category.name}</option>
-            ))}
-          </select>
-        </div>
-        <div>
           <label className="block text-xs font-medium mb-1">{t.date}</label>
           <input type="date" value={formData.date} onChange={(e) => setFormData(prev => ({ ...prev, date: e.target.value }))} className="w-full p-2 border rounded-lg text-sm" required />
+        </div>
+        <div>
+          <label className="block text-xs font-medium mb-1">{t.time || 'Time'}</label>
+          <input type="time" value={formData.time} onChange={(e) => setFormData(prev => ({ ...prev, time: e.target.value }))} className="w-full p-2 border rounded-lg text-sm" required />
         </div>
       </div>
 
@@ -299,6 +343,12 @@ export function AddTransactionForm({ locale, translations: t }: AddTransactionFo
       {showSuccess && (
         <div className="fixed top-4 left-1/2 -translate-x-1/2 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg z-50 animate-in slide-in-from-top">
           ✓ บันทึกข้อมูลเรียบร้อย
+        </div>
+      )}
+
+      {errorMessage && (
+        <div className="fixed top-4 left-1/2 -translate-x-1/2 bg-orange-500 text-white px-6 py-3 rounded-lg shadow-lg z-50 animate-in slide-in-from-top">
+          {errorMessage}
         </div>
       )}
     </form>

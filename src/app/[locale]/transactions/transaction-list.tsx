@@ -28,6 +28,7 @@ export function TransactionList({ locale, translations: t }: TransactionListProp
   const [dateFrom, setDateFrom] = useState('')
   const [dateTo, setDateTo] = useState('')
   const [loading, setLoading] = useState(true)
+  const [deleteConfirm, setDeleteConfirm] = useState<string | null>(null)
 
   const formatDate = (dateString: string) => {
     const date = new Date(dateString)
@@ -91,6 +92,7 @@ export function TransactionList({ locale, translations: t }: TransactionListProp
   const deleteTransaction = async (id: string) => {
     const supabase = createClient()
     await supabase.from('transactions').delete().eq('id', id)
+    setDeleteConfirm(null)
     fetchTransactions()
   }
 
@@ -182,7 +184,7 @@ export function TransactionList({ locale, translations: t }: TransactionListProp
                 <div className={`font-bold ${transaction.type === 'income' ? 'text-green-600' : 'text-orange-600'}`}>
                   {transaction.type === 'income' ? '+' : '-'}฿{transaction.amount.toLocaleString()}
                 </div>
-                <button onClick={() => deleteTransaction(transaction.id)} className="text-red-500 hover:text-orange-700">
+                <button onClick={() => setDeleteConfirm(transaction.id)} className="text-red-500 hover:text-orange-700">
                   <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
                   </svg>
@@ -192,6 +194,23 @@ export function TransactionList({ locale, translations: t }: TransactionListProp
           ))
         )}
       </div>
+
+      {deleteConfirm && (
+        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4" onClick={() => setDeleteConfirm(null)}>
+          <div className="bg-white rounded-lg p-6 w-full max-w-sm" onClick={(e) => e.stopPropagation()}>
+            <h3 className="text-lg font-semibold mb-2">ยืนยันการลบ</h3>
+            <p className="text-gray-600 mb-4">ต้องการลบรายการนี้หรือไม่?</p>
+            <div className="flex gap-2">
+              <button onClick={() => deleteTransaction(deleteConfirm)} className="flex-1 bg-orange-200 text-orange-800 py-2 rounded-lg font-medium hover:bg-orange-300">
+                ลบ
+              </button>
+              <button onClick={() => setDeleteConfirm(null)} className="flex-1 bg-gray-200 text-gray-800 py-2 rounded-lg font-medium hover:bg-gray-300">
+                ยกเลิก
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   )
 }
