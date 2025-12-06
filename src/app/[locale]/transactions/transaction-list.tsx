@@ -41,8 +41,8 @@ export function TransactionList({ locale, translations: t }: TransactionListProp
   const [searchText, setSearchText] = useState('')
   const [dateFrom, setDateFrom] = useState(weekRange.from)
   const [dateTo, setDateTo] = useState(weekRange.to)
-  const [loading, setLoading] = useState(true)
   const [deleteConfirm, setDeleteConfirm] = useState<string | null>(null)
+  const [imageModal, setImageModal] = useState<string | null>(null)
 
   const formatDate = (dateString: string) => {
     const [datePart, timePart] = dateString.split(' ')
@@ -66,7 +66,6 @@ export function TransactionList({ locale, translations: t }: TransactionListProp
   }, [transactions, searchText, dateFrom, dateTo])
 
   const fetchTransactions = async () => {
-    setLoading(true)
     const supabase = createClient()
     const { data: { user } } = await supabase.auth.getUser()
     if (!user) return
@@ -77,8 +76,16 @@ export function TransactionList({ locale, translations: t }: TransactionListProp
       .eq('user_id', user.id)
       .order('date', { ascending: false })
 
-    if (data) setTransactions(data as Transaction[])
-    setLoading(false)
+    if (data) {
+      const transactionsWithProxyUrls = data.map(t => {
+        if (t.image_url && t.image_url.includes('/receipts/')) {
+          const path = t.image_url.split('/receipts/')[1]
+          return { ...t, image_url: `/api/image?path=${encodeURIComponent(path)}` }
+        }
+        return t
+      })
+      setTransactions(transactionsWithProxyUrls as Transaction[])
+    }
   }
 
   const filterTransactions = () => {
@@ -164,33 +171,20 @@ export function TransactionList({ locale, translations: t }: TransactionListProp
       </div>
 
       <div className="space-y-2">
-        {loading ? (
-          [1, 2, 3, 4, 5].map(i => (
-            <div key={i} className="bg-white border rounded-lg p-3 flex items-center justify-between animate-pulse">
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-full bg-gray-200" />
-                <div>
-                  <div className="h-4 bg-gray-200 rounded w-32 mb-2" />
-                  <div className="h-3 bg-gray-200 rounded w-24" />
-                </div>
-              </div>
-              <div className="h-5 bg-gray-200 rounded w-20" />
-            </div>
-          ))
-        ) : filteredTransactions.length === 0 ? (
+        {filteredTransactions.length === 0 ? (
           <p className="text-center text-gray-500 py-8">{t.noTransactions}</p>
         ) : (
           filteredTransactions.map(transaction => (
             <div key={transaction.id} className="bg-white border rounded-lg p-3 flex items-center justify-between">
-              <div className="flex items-center gap-3">
+              <div className="flex items-center gap-3 flex-1 min-w-0" onClick={() => transaction.image_url && setImageModal(transaction.image_url)}>
                 <div
-                  className="w-10 h-10 rounded-full flex items-center justify-center text-white font-bold"
+                  className="w-10 h-10 rounded-full flex items-center justify-center text-white font-bold flex-shrink-0"
                   style={{ backgroundColor: transaction.accounts?.color || '#6366F1' }}
                 >
                   {transaction.accounts?.name.charAt(0)}
                 </div>
-                <div>
-                  <p className="font-medium text-sm">{transaction.note || transaction.categories?.name}</p>
+                <div className="flex-1 min-w-0">
+                  <p className="font-medium text-sm truncate">{transaction.note || transaction.categories?.name}</p>
                   <p className="text-xs text-gray-500">{formatDate(transaction.date)}</p>
                 </div>
               </div>
@@ -208,6 +202,12 @@ export function TransactionList({ locale, translations: t }: TransactionListProp
           ))
         )}
       </div>
+
+      {imageModal && (
+        <div className="fixed inset-0 bg-black/90 z-50 flex items-center justify-center p-4" onClick={() => setImageModal(null)}>
+          <img src={imageModal} alt="Receipt" className="max-w-full max-h-full object-contain" onClick={(e) => e.stopPropagation()} />
+        </div>
+      )}
 
       {deleteConfirm && (
         <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4" onClick={() => setDeleteConfirm(null)}>
