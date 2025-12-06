@@ -1,11 +1,11 @@
 {
-  "name": "Next.js Template",
-  "short_name": "Next.js",
-  "description": "Next.js Template with i18n",
-  "start_url": "/",
+  "name": "ExTracker - Expense Tracker",
+  "short_name": "ExTracker",
+  "description": "Track your expenses with OCR receipt scanning",
+  "start_url": "/en",
   "display": "standalone",
-  "background_color": "#ffffff",
-  "theme_color": "#000000",
+  "background_color": "#f9fafb",
+  "theme_color": "#9333ea",
   "orientation": "portrait",
   "icons": [
     {
