@@ -40,7 +40,7 @@ export function LoginForm({ translations: t }: LoginFormProps) {
     const { error: err } = await supabase.auth.signInWithOAuth({
       provider: 'google',
       options: {
-        redirectTo: `${getURL()}/${locale}/auth/callback?next=/${locale}`
+        redirectTo: `${window.location.origin}/${locale}/auth/callback`
       }
     })
     if (err) setError(err.message)

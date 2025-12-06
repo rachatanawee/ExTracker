@@ -4,12 +4,11 @@ import { NextResponse, type NextRequest } from 'next/server'
 import { cookies } from 'next/headers'
 
 export async function GET(request: NextRequest) {
-  // ใช้ request.nextUrl เพื่อดึง params ได้โดยตรงและแม่นยำกว่าใน Next.js environment
   const { searchParams, origin } = request.nextUrl
   const code = searchParams.get('code')
-  
-  // ตรวจสอบค่า next ถ้าไม่มีให้ไป /en และต้องระวังเรื่อง open redirect (ควรเช็คว่า next เป็น path ภายใน)
-  const next = searchParams.get('next') ?? '/en'
+  const pathname = request.nextUrl.pathname
+  const locale = pathname.split('/')[1] || 'en'
+  const next = `/${locale}`
 
   if (code) {
     const cookieStore = await cookies() // ถูกต้อง: Next.js 16 ต้อง await
@@ -53,6 +52,5 @@ export async function GET(request: NextRequest) {
     }
   }
 
-  // กรณี Error ให้ส่งกลับไปหน้า Login พร้อม query param
-  return NextResponse.redirect(`${origin}/en/login?error=auth_failed`)
+  return NextResponse.redirect(`${origin}/${locale}/login?error=auth_failed`)
 }
