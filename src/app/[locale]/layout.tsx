@@ -8,6 +8,7 @@ import { PageTransitionWrapper } from "@/components/page-transition-wrapper";
 import { RegisterSW } from "@/app/register-sw";
 import { ConditionalLayout } from "@/components/conditional-layout";
 import { APP_NAME, APP_DESCRIPTION } from "@/lib/config";
+import { InstallPrompt } from "@/components/install-prompt";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -65,6 +66,7 @@ export default async function RootLayout({
       >
         <NextIntlClientProvider locale={locale} messages={messages}>
           <RegisterSW />
+          <InstallPrompt />
           <ConditionalLayout>{children}</ConditionalLayout>
         </NextIntlClientProvider>
       </body>
