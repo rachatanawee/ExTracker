@@ -7,6 +7,7 @@ import { Mail, Lock, LogIn, Loader2 } from 'lucide-react'
 import { APP_NAME } from '@/lib/config'
 import { APP_VERSION } from '@/lib/version'
 import { Wallet } from 'lucide-react'
+import { getURL } from '@/lib/get-url'
 
 interface LoginFormProps {
   translations: Record<string, string>
@@ -39,7 +40,7 @@ export function LoginForm({ translations: t }: LoginFormProps) {
     const { error: err } = await supabase.auth.signInWithOAuth({
       provider: 'google',
       options: {
-        redirectTo: `${window.location.origin}/${locale}/auth/callback?next=/${locale}`
+        redirectTo: `${getURL()}/${locale}/auth/callback?next=/${locale}`
       }
     })
     if (err) setError(err.message)

@@ -46,13 +46,15 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 ### UI/UX Features
 - ✅ **Mobile-First Design** - Optimized for mobile devices
-- ✅ **Modern Color Scheme** - Blue gradient header, orange accents
+- ✅ **Modern Color Scheme** - Purple gradient header, orange accents
 - ✅ **Bottom Navigation** - Easy thumb-reach navigation
-- ✅ **Loading States** - Skeleton screens for smooth UX
-- ✅ **Tab-Based Profile** - Profile, Accounts, Categories tabs
-- ✅ **Image Zoom Modal** - Full-screen receipt preview
+- ✅ **Loading States** - Next.js Suspense with skeleton screens
+- ✅ **Tab-Based Profile** - Profile and Data tabs
+- ✅ **Image Zoom Modal** - Full-screen receipt preview with authenticated access
 - ✅ **No Decimals** - Clean number formatting with commas
 - ✅ **Responsive Layout** - Works on all screen sizes
+- ✅ **Month Selector** - Filter dashboard by month/year
+- ✅ **Donut Chart** - Visual expense breakdown by category
 
 ## Quick Start
 
@@ -126,16 +128,18 @@ CREATE TABLE transactions (
   amount DECIMAL NOT NULL,
   account_id UUID REFERENCES accounts,
   category_id UUID REFERENCES categories,
-  date DATE NOT NULL,
+  date TEXT NOT NULL,
   note TEXT,
   image_url TEXT,
   created_at TIMESTAMP DEFAULT NOW()
 );
 ```
 
+**Note:** The `date` field is stored as TEXT in format "YYYY-MM-DD HH:mm" to avoid timezone issues.
+
 ### Storage Bucket
 
-Create a storage bucket named `receipts` for receipt images.
+Create a **private** storage bucket named `receipts` for receipt images. Images are served through an authenticated API proxy at `/api/image` to ensure only logged-in users can access their receipts.
 
 ## App Configuration
 
@@ -180,16 +184,20 @@ src/
 │   │   ├── profile/           # Profile & settings
 │   │   ├── summary/           # Summary dashboard
 │   │   ├── transactions/      # Transaction list
-│   │   ├── home-content.tsx   # Home page content
+│   │   ├── home-content.tsx   # Home page with donut chart
+│   │   ├── loading.tsx        # Loading skeleton
 │   │   └── page.tsx           # Home page
-│   └── api/ocr/               # OCR API endpoint
+│   └── api/
+│       ├── ocr/               # OCR API endpoint
+│       └── image/             # Authenticated image proxy
 ├── components/
 │   ├── bottom-nav/            # Bottom navigation
 │   ├── conditional-layout.tsx # Layout with header
 │   └── language-switcher.tsx  # Language toggle
 ├── lib/
 │   ├── supabase/              # Supabase client & types
-│   └── config.ts              # App configuration
+│   ├── config.ts              # App configuration
+│   └── version.ts             # Auto version from package.json
 └── messages/                  # Translations (EN/TH)
 ```
 
@@ -218,14 +226,22 @@ bun start
 bun run lint
 ```
 
+### Version Management
+```bash
+bun run version:patch  # Bump patch version (0.0.x)
+bun run version:minor  # Bump minor version (0.x.0)
+bun run version:major  # Bump major version (x.0.0)
+```
+
 ## Color Scheme
 
-- **Header**: Blue to Indigo gradient (`from-blue-600 to-indigo-600`)
+- **Header**: Purple gradient (`bg-purple-600`)
 - **Background**: Light gray (`bg-gray-50`)
 - **Income**: Green (`green-600`, `green-100`)
 - **Expense**: Orange (`orange-600`, `orange-100`)
-- **Primary**: Blue (`blue-600`, `blue-200`)
+- **Primary**: Purple (`purple-600`, `purple-200`)
 - **Bottom Nav**: White with shadow
+- **Font Size**: 16px base for better readability
 
 ## License
 
