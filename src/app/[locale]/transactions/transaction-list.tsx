@@ -38,6 +38,7 @@ export function TransactionList({ locale, translations: t }: TransactionListProp
   const weekRange = getWeekRange()
   const [transactions, setTransactions] = useState<Transaction[]>([])
   const [filteredTransactions, setFilteredTransactions] = useState<Transaction[]>([])
+  const [loaded, setLoaded] = useState(false)
   const [searchText, setSearchText] = useState('')
   const [dateFrom, setDateFrom] = useState(weekRange.from)
   const [dateTo, setDateTo] = useState(weekRange.to)
@@ -86,6 +87,7 @@ export function TransactionList({ locale, translations: t }: TransactionListProp
       })
       setTransactions(transactionsWithProxyUrls as Transaction[])
     }
+    setLoaded(true)
   }
 
   const filterTransactions = () => {
@@ -171,7 +173,7 @@ export function TransactionList({ locale, translations: t }: TransactionListProp
       </div>
 
       <div className="space-y-2">
-        {filteredTransactions.length === 0 ? (
+        {!loaded ? null : filteredTransactions.length === 0 ? (
           <p className="text-center text-gray-500 py-8">{t.noTransactions}</p>
         ) : (
           filteredTransactions.map(transaction => (

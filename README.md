@@ -4,7 +4,7 @@ A modern expense tracking application built with Next.js 15, featuring OCR recei
 
 ## Tech Stack
 
-- **Framework:** [Next.js 15](https://nextjs.org/) with App Router & Turbopack
+- **Framework:** [Next.js 16](https://nextjs.org/) with App Router & Turbopack
 - **Language:** [TypeScript](https://www.typescriptlang.org/)
 - **Database:** [Supabase](https://supabase.com/) (PostgreSQL)
 - **Authentication:** [Supabase Auth](https://supabase.com/auth) (Google OAuth)

@@ -7,7 +7,6 @@ import { Mail, Lock, LogIn, Loader2 } from 'lucide-react'
 import { APP_NAME } from '@/lib/config'
 import { APP_VERSION } from '@/lib/version'
 import { Wallet } from 'lucide-react'
-import { getURL } from '@/lib/get-url'
 
 interface LoginFormProps {
   translations: Record<string, string>
