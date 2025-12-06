@@ -19,7 +19,7 @@
   },
   "HomePage": {
     "title": "แดชบอร์ด",
-    "description": "นี่คือเทมเพลต Next.js ของคุณพร้อมการรองรับหลายภาษา",
+    "description": "นี่คือเทมเพลต ExTracker ของคุณพร้อมการรองรับหลายภาษา",
     "recentTransactions": "รายการล่าสุด",
     "noTransactions": "ยังไม่มีรายการ",
     "viewAll": "ดูทั้งหมด",
