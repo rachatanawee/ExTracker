@@ -29,7 +29,7 @@ export const metadata: Metadata = {
   appleWebApp: {
     capable: true,
     statusBarStyle: 'default',
-    title: 'Next.js',
+    title: APP_NAME,
   },
 };
 
@@ -39,7 +39,7 @@ export const viewport = {
   maximumScale: 5,
   userScalable: true,
   viewportFit: 'cover',
-  themeColor: '#000000',
+  themeColor: '#9333ea',
 };
 
 export default async function RootLayout({

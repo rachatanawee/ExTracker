@@ -19,7 +19,7 @@
   },
   "HomePage": {
     "title": "Dashboard",
-    "description": "This is your Next.js template with internationalization support.",
+    "description": "This is your Extracker with internationalization support.",
     "recentTransactions": "Recent Transactions",
     "noTransactions": "No transactions yet",
     "viewAll": "View All",
