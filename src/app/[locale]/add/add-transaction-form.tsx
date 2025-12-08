@@ -242,6 +242,41 @@ export function AddTransactionForm({ locale, translations: t }: AddTransactionFo
 
   return (
     <form onSubmit={handleSubmit} className="space-y-3">
+      <div>
+        <label className="block text-sm font-medium mb-2">{t.image}</label>
+        {imagePreview ? (
+          <div className="relative">
+            <img 
+              src={imagePreview} 
+              alt="Preview" 
+              className="w-full h-24 object-cover rounded-lg cursor-pointer" 
+              onClick={() => setShowImageModal(true)}
+            />
+            {ocrLoading && (
+              <div className="absolute inset-0 bg-black bg-opacity-50 rounded-lg flex items-center justify-center">
+                <div className="text-white text-xs">Processing...</div>
+              </div>
+            )}
+            <button type="button" onClick={() => { setImageFile(null); setImagePreview(null) }} className="absolute top-1 right-1 bg-orange-500 text-white p-1 rounded-full z-10">
+              <X className="h-3 w-3" />
+            </button>
+          </div>
+        ) : (
+          <div className="grid grid-cols-2 gap-2">
+            <label className="flex items-center justify-center p-2 border-2 border-dashed border-gray-300 rounded-lg cursor-pointer hover:bg-gray-50">
+              <Camera className="h-4 w-4 mr-1" />
+              <span className="text-sm">{t.takePhoto}</span>
+              <input type="file" accept="image/*" capture="environment" onChange={handleImageChange} className="hidden" />
+            </label>
+            <label className="flex items-center justify-center p-2 border-2 border-dashed border-gray-300 rounded-lg cursor-pointer hover:bg-gray-50">
+              <Upload className="h-4 w-4 mr-1" />
+              <span className="text-sm">{t.uploadImage}</span>
+              <input type="file" accept="image/*" onChange={handleImageChange} className="hidden" />
+            </label>
+          </div>
+        )}
+      </div>
+
       <div className="grid grid-cols-2 gap-2">
         <button type="button" onClick={() => setFormData(prev => ({ ...prev, type: 'expense' }))} className={`p-2 rounded-lg font-medium text-sm ${formData.type === 'expense' ? 'bg-orange-200 text-orange-800' : 'bg-gray-100 text-gray-700'}`}>
           {t.expense}
@@ -293,41 +328,6 @@ export function AddTransactionForm({ locale, translations: t }: AddTransactionFo
       <div>
         <label className="block text-xs font-medium mb-1">{t.note}</label>
         <input type="text" value={formData.note} onChange={(e) => setFormData(prev => ({ ...prev, note: e.target.value }))} className="w-full p-2 border rounded-lg text-sm" placeholder={t.notePlaceholder} />
-      </div>
-
-      <div>
-        <label className="block text-sm font-medium mb-2">{t.image}</label>
-        {imagePreview ? (
-          <div className="relative">
-            <img 
-              src={imagePreview} 
-              alt="Preview" 
-              className="w-full h-24 object-cover rounded-lg cursor-pointer" 
-              onClick={() => setShowImageModal(true)}
-            />
-            {ocrLoading && (
-              <div className="absolute inset-0 bg-black bg-opacity-50 rounded-lg flex items-center justify-center">
-                <div className="text-white text-xs">Processing...</div>
-              </div>
-            )}
-            <button type="button" onClick={() => { setImageFile(null); setImagePreview(null) }} className="absolute top-1 right-1 bg-orange-500 text-white p-1 rounded-full z-10">
-              <X className="h-3 w-3" />
-            </button>
-          </div>
-        ) : (
-          <div className="grid grid-cols-2 gap-2">
-            <label className="flex items-center justify-center p-2 border-2 border-dashed border-gray-300 rounded-lg cursor-pointer hover:bg-gray-50">
-              <Camera className="h-4 w-4 mr-1" />
-              <span className="text-sm">{t.takePhoto}</span>
-              <input type="file" accept="image/*" capture="environment" onChange={handleImageChange} className="hidden" />
-            </label>
-            <label className="flex items-center justify-center p-2 border-2 border-dashed border-gray-300 rounded-lg cursor-pointer hover:bg-gray-50">
-              <Upload className="h-4 w-4 mr-1" />
-              <span className="text-sm">{t.uploadImage}</span>
-              <input type="file" accept="image/*" onChange={handleImageChange} className="hidden" />
-            </label>
-          </div>
-        )}
       </div>
 
       <button type="submit" disabled={loading} className="w-full bg-purple-200 text-purple-800 p-2 rounded-lg font-medium hover:bg-purple-300 disabled:opacity-50 flex items-center justify-center text-sm relative">

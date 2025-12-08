@@ -37,15 +37,25 @@ export async function GET(request: NextRequest) {
     const { error } = await supabase.auth.exchangeCodeForSession(code)
     
     if (!error) {
-      // Forward search params อื่นๆ ไปด้วยถ้าจำเป็น
-      const forwardedSearchParams = new URLSearchParams(searchParams.toString())
-      forwardedSearchParams.delete('code') // ลบ code ทิ้งไป
+      const { data: { user } } = await supabase.auth.getUser()
       
-      // สร้าง URL ปลายทางที่สมบูรณ์
-      // ข้อควรระวัง: ถ้า run บน localhost แล้ว origin เป็น http แต่ production เป็น https 
-      // การใช้ request.nextUrl.clone() หรือสร้าง URL ใหม่จะชัวร์กว่า
-      const forwardedUrl = new URL(next, origin) 
+      if (user) {
+        const { data: existingAccounts } = await supabase
+          .from('accounts')
+          .select('id')
+          .eq('user_id', user.id)
+          .limit(1)
+        
+        if (!existingAccounts || existingAccounts.length === 0) {
+          await supabase.from('accounts').insert({
+            user_id: user.id,
+            name: 'Cash',
+            color: '#6366F1'
+          })
+        }
+      }
       
+      const forwardedUrl = new URL(next, origin)
       return NextResponse.redirect(forwardedUrl)
     } else {
         console.error('Auth Exchange Error:', error)
