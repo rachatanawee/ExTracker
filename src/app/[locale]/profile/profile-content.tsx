@@ -254,23 +254,23 @@ export function ProfileContent({ locale, translations: t }: ProfileContentProps)
 
       {showCategoryForm && (
         <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4" onClick={() => setShowCategoryForm(false)}>
-          <div className="bg-white rounded-lg p-6 w-full max-w-md min-h-[300px]" onClick={(e) => e.stopPropagation()}>
+          <div className="bg-white rounded-lg p-6 w-full max-w-md" onClick={(e) => e.stopPropagation()}>
             <h3 className="text-lg font-semibold mb-4">{editingCategory ? t.edit : t.addCategory}</h3>
-            <div className="space-y-3">
+            <div className="space-y-4">
               <div>
-                <label className="block text-sm font-medium mb-1">{t.name}</label>
-                <input type="text" value={categoryForm.name} onChange={(e) => setCategoryForm(prev => ({ ...prev, name: e.target.value }))} className="w-full p-2 border rounded-lg" />
+                <label className="block text-sm font-medium mb-2">{t.name}</label>
+                <input type="text" value={categoryForm.name} onChange={(e) => setCategoryForm(prev => ({ ...prev, name: e.target.value }))} className="w-full p-3 border rounded-lg text-base" />
               </div>
               <div>
-                <label className="block text-sm font-medium mb-1">{t.type}</label>
+                <label className="block text-sm font-medium mb-2">{t.type}</label>
                 <div className="grid grid-cols-2 gap-2">
-                  <button type="button" onClick={() => setCategoryForm(prev => ({ ...prev, type: 'expense' }))} className={`p-2 rounded-lg font-medium text-sm ${categoryForm.type === 'expense' ? 'bg-orange-200 text-orange-800' : 'bg-gray-100 text-gray-700'}`}>{t.expense}</button>
-                  <button type="button" onClick={() => setCategoryForm(prev => ({ ...prev, type: 'income' }))} className={`p-2 rounded-lg font-medium text-sm ${categoryForm.type === 'income' ? 'bg-green-200 text-green-800' : 'bg-gray-100 text-gray-700'}`}>{t.income}</button>
+                  <button type="button" onClick={() => setCategoryForm(prev => ({ ...prev, type: 'expense' }))} className={`p-3 rounded-lg font-medium ${categoryForm.type === 'expense' ? 'bg-orange-200 text-orange-800' : 'bg-gray-100 text-gray-700'}`}>{t.expense}</button>
+                  <button type="button" onClick={() => setCategoryForm(prev => ({ ...prev, type: 'income' }))} className={`p-3 rounded-lg font-medium ${categoryForm.type === 'income' ? 'bg-green-200 text-green-800' : 'bg-gray-100 text-gray-700'}`}>{t.income}</button>
                 </div>
               </div>
-              <div className="flex gap-2">
-                <button onClick={saveCategory} className="flex-1 bg-purple-200 text-purple-800 py-2 rounded-lg font-medium hover:bg-purple-300">{t.save}</button>
-                <button onClick={() => setShowCategoryForm(false)} className="flex-1 bg-gray-200 text-gray-800 py-2 rounded-lg font-medium hover:bg-gray-300">{t.cancel}</button>
+              <div className="flex gap-2 pt-2">
+                <button onClick={saveCategory} className="flex-1 bg-purple-200 text-purple-800 py-3 rounded-lg font-medium hover:bg-purple-300">{t.save}</button>
+                <button onClick={() => setShowCategoryForm(false)} className="flex-1 bg-gray-200 text-gray-800 py-3 rounded-lg font-medium hover:bg-gray-300">{t.cancel}</button>
               </div>
             </div>
           </div>
