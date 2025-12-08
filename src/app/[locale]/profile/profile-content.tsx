@@ -231,8 +231,8 @@ export function ProfileContent({ locale, translations: t }: ProfileContentProps)
       </div>
 
       {showAccountForm && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4" onClick={() => setShowAccountForm(false)}>
-          <div className="bg-white rounded-lg p-6 w-full max-w-md" onClick={(e) => e.stopPropagation()}>
+        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4" onClick={() => setShowAccountForm(false)}>
+          <div className="bg-white rounded-lg p-6 w-full max-w-md min-h-[300px]" onClick={(e) => e.stopPropagation()}>
             <h3 className="text-lg font-semibold mb-4">{editingAccount ? t.edit : t.addAccount}</h3>
             <div className="space-y-3">
               <div>
@@ -253,8 +253,8 @@ export function ProfileContent({ locale, translations: t }: ProfileContentProps)
       )}
 
       {showCategoryForm && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4" onClick={() => setShowCategoryForm(false)}>
-          <div className="bg-white rounded-lg p-6 w-full max-w-md" onClick={(e) => e.stopPropagation()}>
+        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4" onClick={() => setShowCategoryForm(false)}>
+          <div className="bg-white rounded-lg p-6 w-full max-w-md min-h-[300px]" onClick={(e) => e.stopPropagation()}>
             <h3 className="text-lg font-semibold mb-4">{editingCategory ? t.edit : t.addCategory}</h3>
             <div className="space-y-3">
               <div>
