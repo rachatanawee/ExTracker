@@ -6,6 +6,7 @@ import { Tables } from '@/lib/supabase/types'
 import { ArrowUpRight, ArrowDownRight, Receipt, ChevronDown } from 'lucide-react'
 import Link from 'next/link'
 import React from 'react'
+import { formatDateTime } from '@/lib/format-date'
 
 type Transaction = Tables<'transactions'> & {
   categories: { name: string; type: string } | null
@@ -108,14 +109,14 @@ export function HomeContent({ locale, translations: t }: HomeContentProps) {
           <div className="bg-green-50 rounded-lg p-3 border border-green-200 animate-pulse">
             <div className="flex items-center gap-1 text-green-700 mb-1">
               <ArrowUpRight className="w-4 h-4" />
-              <span className="text-xs font-medium">{t.income}</span>
+              <span className="text-sm font-medium">{t.income}</span>
             </div>
             <div className="h-6 bg-green-200 rounded w-20" />
           </div>
           <div className="bg-orange-50 rounded-lg p-3 border border-orange-200 animate-pulse">
             <div className="flex items-center gap-1 text-orange-700 mb-1">
               <ArrowDownRight className="w-4 h-4" />
-              <span className="text-xs font-medium">{t.expense}</span>
+              <span className="text-sm font-medium">{t.expense}</span>
             </div>
             <div className="h-6 bg-orange-200 rounded w-20" />
           </div>
@@ -226,7 +227,7 @@ export function HomeContent({ locale, translations: t }: HomeContentProps) {
             <ArrowUpRight className="w-4 h-4" />
             <span className="text-xs font-medium">{t.income}</span>
           </div>
-          <p className="text-lg font-bold text-green-800">
+          <p className="text-xl font-bold text-green-800">
             {summary.income.toLocaleString()}
           </p>
         </div>
@@ -235,15 +236,15 @@ export function HomeContent({ locale, translations: t }: HomeContentProps) {
             <ArrowDownRight className="w-4 h-4" />
             <span className="text-xs font-medium">{t.expense}</span>
           </div>
-          <p className="text-lg font-bold text-orange-800">
+          <p className="text-xl font-bold text-orange-800">
             {summary.expense.toLocaleString()}
           </p>
         </div>
       </div>
 
       <div className="flex items-center justify-between">
-        <h2 className="text-sm font-semibold text-gray-800">{t.recentTransactions}</h2>
-        <Link href={`/${locale}/transactions`} className="text-xs text-blue-600 hover:text-blue-800">
+        <h2 className="text-base font-semibold text-gray-800">{t.recentTransactions}</h2>
+        <Link href={`/${locale}/transactions`} className="text-sm text-blue-600 hover:text-blue-800">
           {t.viewAll}
         </Link>
       </div>
@@ -267,10 +268,10 @@ export function HomeContent({ locale, translations: t }: HomeContentProps) {
               </div>
               <div className="flex-1 min-w-0">
                 <div className="flex items-center justify-between">
-                  <p className="text-sm font-medium text-gray-800 truncate">
+                  <p className="text-base font-medium text-gray-800 truncate">
                     {transaction.categories?.name || transaction.note || '-'}
                   </p>
-                  <p className={`text-sm font-bold ${transaction.type === 'income' ? 'text-green-600' : 'text-orange-600'}`}>
+                  <p className={`text-base font-bold ${transaction.type === 'income' ? 'text-green-600' : 'text-orange-600'}`}>
                     {transaction.type === 'income' ? '+' : '-'}
                     {transaction.amount.toLocaleString()}
                   </p>
@@ -279,11 +280,11 @@ export function HomeContent({ locale, translations: t }: HomeContentProps) {
                   {transaction.accounts && (
                     <div className="flex items-center gap-1">
                       <div className="w-2 h-2 rounded-full" style={{ backgroundColor: transaction.accounts.color }} />
-                      <span className="text-xs text-gray-500">{transaction.accounts.name}</span>
+                      <span className="text-sm text-gray-500">{transaction.accounts.name}</span>
                     </div>
                   )}
-                  <span className="text-xs text-gray-400">
-                    {new Date(transaction.date).toLocaleDateString(locale === 'th' ? 'th-TH' : 'en-US')}
+                  <span className="text-sm text-gray-400">
+                    {formatDateTime(transaction.date, locale)}
                   </span>
                 </div>
               </div>

@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import { Tables } from '@/lib/supabase/types'
 import { Search } from 'lucide-react'
+import { formatDateTime, formatDate } from '@/lib/format-date'
 
 type Transaction = Tables<'transactions'> & {
   accounts: { name: string; color: string } | null
@@ -44,19 +45,6 @@ export function TransactionList({ locale, translations: t }: TransactionListProp
   const [dateTo, setDateTo] = useState(weekRange.to)
   const [deleteConfirm, setDeleteConfirm] = useState<string | null>(null)
   const [imageModal, setImageModal] = useState<string | null>(null)
-
-  const formatDate = (dateString: string) => {
-    const [datePart, timePart] = dateString.split(' ')
-    const [year, month, day] = datePart.split('-')
-    const date = new Date(parseInt(year), parseInt(month) - 1, parseInt(day))
-    const options: Intl.DateTimeFormatOptions = { 
-      day: 'numeric', 
-      month: 'short', 
-      year: 'numeric'
-    }
-    const formattedDate = date.toLocaleDateString(locale === 'th' ? 'th-TH' : 'en-US', options)
-    return timePart ? `${formattedDate} ${timePart}` : formattedDate
-  }
 
   useEffect(() => {
     fetchTransactions()
@@ -187,7 +175,7 @@ export function TransactionList({ locale, translations: t }: TransactionListProp
                 </div>
                 <div className="flex-1 min-w-0">
                   <p className="font-medium text-sm truncate">{transaction.note || transaction.categories?.name}</p>
-                  <p className="text-xs text-gray-500">{formatDate(transaction.date)}</p>
+                  <p className="text-xs text-gray-500">{formatDateTime(transaction.date, locale)}</p>
                 </div>
               </div>
               <div className="flex items-center gap-2">
