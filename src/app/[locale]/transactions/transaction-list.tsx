@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import { Tables } from '@/lib/supabase/types'
-import { Search } from 'lucide-react'
+import { Search, X, Image as ImageIcon, ChevronRight } from 'lucide-react'
 import { formatDateTime, formatDate } from '@/lib/format-date'
 
 type Transaction = Tables<'transactions'> & {
@@ -45,6 +45,7 @@ export function TransactionList({ locale, translations: t }: TransactionListProp
   const [dateTo, setDateTo] = useState(weekRange.to)
   const [deleteConfirm, setDeleteConfirm] = useState<string | null>(null)
   const [imageModal, setImageModal] = useState<string | null>(null)
+  const [detailModal, setDetailModal] = useState<Transaction | null>(null)
 
   useEffect(() => {
     fetchTransactions()
@@ -165,8 +166,8 @@ export function TransactionList({ locale, translations: t }: TransactionListProp
           <p className="text-center text-gray-500 py-8">{t.noTransactions}</p>
         ) : (
           filteredTransactions.map(transaction => (
-            <div key={transaction.id} className="bg-white border rounded-lg p-3 flex items-center justify-between">
-              <div className="flex items-center gap-3 flex-1 min-w-0" onClick={() => transaction.image_url && setImageModal(transaction.image_url)}>
+            <div key={transaction.id} className="bg-white border rounded-lg p-3">
+              <div className="flex items-center gap-3">
                 <div
                   className="w-10 h-10 rounded-full flex items-center justify-center text-white font-bold flex-shrink-0"
                   style={{ backgroundColor: transaction.accounts?.color || '#6366F1' }}
@@ -177,15 +178,32 @@ export function TransactionList({ locale, translations: t }: TransactionListProp
                   <p className="font-medium text-sm truncate">{transaction.note || transaction.categories?.name}</p>
                   <p className="text-xs text-gray-500">{formatDateTime(transaction.date, locale)}</p>
                 </div>
-              </div>
-              <div className="flex items-center gap-2">
-                <div className={`font-bold ${transaction.type === 'income' ? 'text-green-600' : 'text-orange-600'}`}>
+                <div className={`font-bold text-sm ${transaction.type === 'income' ? 'text-green-600' : 'text-orange-600'}`}>
                   {transaction.type === 'income' ? '+' : '-'}฿{transaction.amount.toLocaleString()}
                 </div>
-                <button onClick={() => setDeleteConfirm(transaction.id)} className="text-red-500 hover:text-orange-700">
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                  </svg>
+              </div>
+              <div className="flex gap-2 mt-2">
+                {transaction.image_url && (
+                  <button 
+                    onClick={() => setImageModal(transaction.image_url)} 
+                    className="flex-1 flex items-center justify-center gap-1 bg-purple-100 text-purple-700 py-2 rounded-lg text-xs font-medium hover:bg-purple-200"
+                  >
+                    <ImageIcon className="w-4 h-4" />
+                    ดูรูป
+                  </button>
+                )}
+                <button 
+                  onClick={() => setDetailModal(transaction)} 
+                  className="flex-1 flex items-center justify-center gap-1 bg-gray-100 text-gray-700 py-2 rounded-lg text-xs font-medium hover:bg-gray-200"
+                >
+                  <ChevronRight className="w-4 h-4" />
+                  รายละเอียด
+                </button>
+                <button 
+                  onClick={() => setDeleteConfirm(transaction.id)} 
+                  className="px-3 bg-orange-100 text-orange-700 py-2 rounded-lg text-xs font-medium hover:bg-orange-200"
+                >
+                  ลบ
                 </button>
               </div>
             </div>
@@ -193,9 +211,86 @@ export function TransactionList({ locale, translations: t }: TransactionListProp
         )}
       </div>
 
+      {detailModal && (
+        <div className="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-4" onClick={() => setDetailModal(null)}>
+          <div className="bg-white rounded-2xl shadow-2xl w-full max-w-md" onClick={(e) => e.stopPropagation()}>
+            <div className="flex items-center justify-between p-4 border-b bg-gradient-to-r from-purple-600 to-purple-700 rounded-t-2xl">
+              <h3 className="text-lg font-semibold text-white">รายละเอียด</h3>
+              <button 
+                onClick={() => setDetailModal(null)} 
+                className="bg-white/20 hover:bg-white/30 text-white p-2 rounded-full transition-colors"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+            <div className="p-6 space-y-4">
+              <div className="flex items-center justify-between">
+                <span className="text-gray-600">ประเภท</span>
+                <span className={`font-semibold ${detailModal.type === 'income' ? 'text-green-600' : 'text-orange-600'}`}>
+                  {detailModal.type === 'income' ? 'รายรับ' : 'รายจ่าย'}
+                </span>
+              </div>
+              <div className="flex items-center justify-between">
+                <span className="text-gray-600">จำนวนเงิน</span>
+                <span className={`text-xl font-bold ${detailModal.type === 'income' ? 'text-green-600' : 'text-orange-600'}`}>
+                  {detailModal.type === 'income' ? '+' : '-'}฿{detailModal.amount.toLocaleString()}
+                </span>
+              </div>
+              <div className="flex items-center justify-between">
+                <span className="text-gray-600">บัญชี</span>
+                <div className="flex items-center gap-2">
+                  <div className="w-3 h-3 rounded-full" style={{ backgroundColor: detailModal.accounts?.color }} />
+                  <span className="font-medium">{detailModal.accounts?.name}</span>
+                </div>
+              </div>
+              <div className="flex items-center justify-between">
+                <span className="text-gray-600">หมวดหมู่</span>
+                <span className="font-medium">{detailModal.categories?.name}</span>
+              </div>
+              <div className="flex items-center justify-between">
+                <span className="text-gray-600">วันที่</span>
+                <span className="font-medium">{formatDateTime(detailModal.date, locale)}</span>
+              </div>
+              {detailModal.note && (
+                <div>
+                  <span className="text-gray-600 block mb-1">หมายเหตุ</span>
+                  <p className="text-gray-800 bg-gray-50 p-3 rounded-lg">{detailModal.note}</p>
+                </div>
+              )}
+              {detailModal.image_url && (
+                <button 
+                  onClick={() => { setImageModal(detailModal.image_url); setDetailModal(null) }} 
+                  className="w-full flex items-center justify-center gap-2 bg-purple-600 text-white py-3 rounded-lg font-medium hover:bg-purple-700"
+                >
+                  <ImageIcon className="w-5 h-5" />
+                  ดูใบเสร็จ
+                </button>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
+
       {imageModal && (
-        <div className="fixed inset-0 bg-black/90 z-50 flex items-center justify-center p-4" onClick={() => setImageModal(null)}>
-          <img src={imageModal} alt="Receipt" className="max-w-full max-h-full object-contain" onClick={(e) => e.stopPropagation()} />
+        <div className="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-4" onClick={() => setImageModal(null)}>
+          <div className="bg-white rounded-2xl shadow-2xl w-full max-w-2xl max-h-[85vh] flex flex-col" onClick={(e) => e.stopPropagation()}>
+            <div className="flex items-center justify-between p-4 border-b bg-gradient-to-r from-purple-600 to-purple-700 rounded-t-2xl">
+              <h3 className="text-lg font-semibold text-white">ใบเสร็จ</h3>
+              <button 
+                onClick={() => setImageModal(null)} 
+                className="bg-white/20 hover:bg-white/30 text-white p-2 rounded-full transition-colors"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+            <div className="flex-1 overflow-auto p-4 bg-gray-50">
+              <img 
+                src={imageModal} 
+                alt="Receipt" 
+                className="w-full h-auto rounded-lg shadow-md" 
+              />
+            </div>
+          </div>
         </div>
       )}
 
