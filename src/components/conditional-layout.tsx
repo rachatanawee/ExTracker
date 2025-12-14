@@ -25,7 +25,10 @@ export function ConditionalLayout({ children }: { children: React.ReactNode }) {
   }
 
   return (
-    <div className="flex flex-col min-h-screen bg-gray-50">
+    <div
+      className="flex flex-col min-h-screen bg-cover bg-center bg-no-repeat"
+      style={{ backgroundImage: "url('/img/bg.png')" }}
+    >
       <header className="px-4 py-3 bg-purple-600 shadow-xl w-full sticky top-0 z-10">
         <div className="flex items-center justify-between max-w-md mx-auto">
           <div className="flex items-center gap-3">
